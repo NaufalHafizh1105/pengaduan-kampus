@@ -2,20 +2,24 @@
 //  Konfigurasi API
 //  baseUrl otomatis menyesuaikan tempat app dijalankan
 // =========================================================
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 
 class ApiConfig {
   // ── Atur IP komputer di sini (untuk HP fisik) ──
   // Cek dengan perintah: ipconfig  → lihat "IPv4 Address"
-  static const String _ipKomputer = '192.168.1.10';
+  static const String ipKomputer = '192.168.1.10';
 
   // ── baseUrl otomatis ──
   // 1. Flutter Web (Chrome)  → localhost
   // 2. Android emulator      → 10.0.2.2 (alias localhost PC)
-  // 3. HP fisik              → ganti ke 'http://$_ipKomputer:3000'
+  // 3. HP fisik (Android)    → ganti ipKomputer ke IP PC: 'http://$ipKomputer:3000'
   static String get baseUrl {
     if (kIsWeb) return 'http://localhost:3000';
-    return 'http://10.0.2.2:3000';
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      // Emulator memakai 10.0.2.2; HP fisik ganti ke 'http://$ipKomputer:3000'
+      return 'http://10.0.2.2:3000';
+    }
+    return 'http://$ipKomputer:3000';
   }
 
   // ── Endpoint ──

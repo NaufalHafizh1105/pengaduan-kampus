@@ -1,7 +1,9 @@
 // =========================================================
 //  Buat Laporan Screen — form + ambil foto
+//  Catatan: memakai XFile + bytes supaya jalan di Web (Chrome)
+//  maupun Android/iOS (tidak memakai dart:io File).
 // =========================================================
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../services/pengaduan_service.dart';
@@ -20,15 +22,26 @@ class _BuatLaporanScreenState extends State<BuatLaporanScreen> {
   final _picker = ImagePicker();
 
   String _kategori = 'Fasilitas';
-  File? _foto;
+  XFile? _foto;              // file terpilih (lintas platform)
+  Uint8List? _fotoBytes;     // isi gambar (untuk preview + upload)
   bool _loading = false;
 
   final _kategoris = ['Fasilitas', 'Kebersihan', 'Keamanan', 'Akademik', 'Lainnya'];
 
   Future<void> _ambilFoto(ImageSource source) async {
     try {
-      final x = await _picker.pickImage(source: source, imageQuality: 70, maxWidth: 1280);
-      if (x != null) setState(() => _foto = File(x.path));
+      final x = await _picker.pickImage(
+        source: source,
+        imageQuality: 70,
+        maxWidth: 1280,
+      );
+      if (x == null) return;
+      final bytes = await x.readAsBytes();
+      if (!mounted) return;
+      setState(() {
+        _foto = x;
+        _fotoBytes = bytes;
+      });
     } catch (e) {
       _pesan('Gagal mengambil foto: $e');
     }
@@ -63,7 +76,10 @@ class _BuatLaporanScreenState extends State<BuatLaporanScreen> {
                 title: const Text('Hapus Foto', style: TextStyle(color: Colors.red)),
                 onTap: () {
                   Navigator.pop(context);
-                  setState(() => _foto = null);
+                  setState(() {
+                    _foto = null;
+                    _fotoBytes = null;
+                  });
                 },
               ),
           ],
@@ -84,7 +100,8 @@ class _BuatLaporanScreenState extends State<BuatLaporanScreen> {
         deskripsi: _deskCtrl.text.trim(),
         kategori: _kategori,
         lokasi: _lokasiCtrl.text.trim(),
-        fotoPath: _foto?.path,
+        fotoBytes: _fotoBytes,
+        fotoName: _foto?.name,
       );
       if (!mounted) return;
       _pesan(msg);
@@ -120,7 +137,7 @@ class _BuatLaporanScreenState extends State<BuatLaporanScreen> {
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: Colors.grey.shade300),
                   ),
-                  child: _foto == null
+                  child: _fotoBytes == null
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -131,7 +148,11 @@ class _BuatLaporanScreenState extends State<BuatLaporanScreen> {
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(14),
-                          child: Image.file(_foto!, fit: BoxFit.cover, width: double.infinity),
+                          child: Image.memory(
+                            _fotoBytes!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
                         ),
                 ),
               ),

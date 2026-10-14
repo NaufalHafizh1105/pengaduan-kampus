@@ -1,6 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Izin akses internet untuk memanggil API -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Izin kamera & galeri untuk upload foto laporan -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
 
     <application
         android:label="pengaduan_kampus"

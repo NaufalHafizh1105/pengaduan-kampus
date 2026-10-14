@@ -66,7 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengaduan Kampus'),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/logo_umb.png', height: 30, width: 30, fit: BoxFit.contain),
+            const SizedBox(width: 10),
+            const Text('Pengaduan Kampus'),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

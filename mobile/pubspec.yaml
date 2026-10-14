@@ -12,6 +12,8 @@ dependencies:
 
   # HTTP request ke API
   http: ^1.2.2
+  # Tipe MIME untuk upload foto (web + HP)
+  http_parser: ^4.0.2
   # Simpan token login di HP
   shared_preferences: ^2.3.2
   # Ambil foto dari kamera / galeri
@@ -28,3 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # Aset gambar (logo kampus)
+  assets:
+    - assets/logo_umb.png

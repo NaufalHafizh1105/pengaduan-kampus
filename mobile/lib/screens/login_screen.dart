@@ -57,15 +57,45 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              // Logo
+              // Logo UMB
               Center(
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppTheme.primary.withValues(alpha: 0.1),
+                    color: Colors.white,
                     shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.primary.withValues(alpha: 0.15),
+                        blurRadius: 14,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.campaign, size: 64, color: AppTheme.primary),
+                  child: Image.asset(
+                    'assets/logo_umb.png',
+                    width: 84,
+                    height: 84,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Center(
+                child: Text(
+                  'Pengaduan Kampus',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Center(
+                child: Text(
+                  'Universitas Muhammadiyah Bandung',
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
                 ),
               ),
               const SizedBox(height: 24),

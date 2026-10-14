@@ -45,10 +45,22 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
+                color: Colors.white,
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.campaign, size: 80, color: Colors.white),
+              child: Image.asset(
+                'assets/logo_umb.png',
+                width: 96,
+                height: 96,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -63,6 +75,11 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'Laporkan keluhan fasilitas kampus',
               style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 14),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Universitas Muhammadiyah Bandung',
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
             ),
             const SizedBox(height: 40),
             const CircularProgressIndicator(color: Colors.white),

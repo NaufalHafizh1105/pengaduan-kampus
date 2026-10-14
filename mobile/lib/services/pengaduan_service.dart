@@ -2,7 +2,9 @@
 //  Service: Pengaduan (CRUD laporan + upload foto)
 // =========================================================
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart' show MediaType;
 import '../config/api.dart';
 import '../models/pengaduan.dart';
 import 'auth_service.dart';
@@ -42,12 +44,14 @@ class PengaduanService {
   }
 
   // ── Buat laporan baru (dengan foto opsional) ──
+  // Menerima bytes foto supaya jalan di Web (Chrome) MAUPUN Android/iOS.
   static Future<String> buat({
     required String judul,
     required String deskripsi,
     required String kategori,
     required String lokasi,
-    String? fotoPath,
+    Uint8List? fotoBytes,
+    String? fotoName,
   }) async {
     final token = await AuthService.getToken();
     final req = http.MultipartRequest('POST', Uri.parse(ApiConfig.pengaduan))
@@ -57,8 +61,21 @@ class PengaduanService {
       ..fields['kategori'] = kategori
       ..fields['lokasi'] = lokasi;
 
-    if (fotoPath != null) {
-      req.files.add(await http.MultipartFile.fromPath('foto', fotoPath));
+    if (fotoBytes != null) {
+      // Tentukan MIME type dari ekstensi nama file
+      final nama = fotoName ?? 'foto.jpg';
+      final ext = nama.contains('.') ? nama.split('.').last.toLowerCase() : 'jpg';
+      final mime = switch (ext) {
+        'png' => 'image/png',
+        'webp' => 'image/webp',
+        _ => 'image/jpeg',
+      };
+      req.files.add(http.MultipartFile.fromBytes(
+        'foto',
+        fotoBytes,
+        filename: nama,
+        contentType: MediaType.parse(mime),
+      ));
     }
 
     final streamed = await req.send();
