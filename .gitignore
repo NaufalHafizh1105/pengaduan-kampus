@@ -1,0 +1,37 @@
+# ── Node / Backend ──
+node_modules/
+backend/.env
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.log
+npm-debug.log*
+
+# ── Flutter / Dart ──
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.pub-cache/
+mobile/.pub/
+mobile/build/
+mobile/android/app/debug/
+mobile/android/app/profile/
+mobile/android/app/release/
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/*.iml
+
+# ── Tugas (preview hasil render tidak perlu ikut repo) ──
+tugas/preview/
+tugas/preview_ppt/
+tugas/__pycache__/
+
+# ── OS / Editor ──
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

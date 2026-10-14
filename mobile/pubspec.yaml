@@ -1,0 +1,30 @@
+name: pengaduan_kampus
+description: Aplikasi Pengaduan Fasilitas Kampus - Tugas Pemrograman Perangkat Bergerak
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP request ke API
+  http: ^1.2.2
+  # Simpan token login di HP
+  shared_preferences: ^2.3.2
+  # Ambil foto dari kamera / galeri
+  image_picker: ^1.1.2
+  # Format tanggal Indonesia
+  intl: ^0.19.0
+  # Ikon tambahan
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
